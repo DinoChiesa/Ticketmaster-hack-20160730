@@ -55,6 +55,10 @@ tr > td.event-venue {
 tr > td.event-name {
   min-width:442px;
 }
+tr > td.event-name > span {
+  font-size:20px;
+}
+
 
 
 .search-form { }

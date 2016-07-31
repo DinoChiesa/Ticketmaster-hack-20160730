@@ -83,8 +83,8 @@
       </thead>
       <tbody>
         <tr ng-repeat="event in stShadowCollection">
-          <td><span ng-bind-html='event | eventHyperlinked'></span></td>
-          <td>
+          <td class='event-name'><span ng-bind-html='event | eventHyperlinked'></span></td>
+          <td class='event-venue'>
             <div ng-repeat='venue in event._embedded.venues'>
               <div ng-bind-html='venue | venueHyperlinked'></div>
             </div>

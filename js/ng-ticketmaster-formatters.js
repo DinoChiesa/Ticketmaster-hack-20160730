@@ -3,7 +3,7 @@
 //
 // format filters for ticketmaster entities.
 //
-// last saved: <2016-July-30 22:40:41>
+// last saved: <2016-July-31 07:17:41>
 
 
 ;(function (){
@@ -21,7 +21,9 @@
       addr += v.address.line2;
     }
     if (addr) { addr += ', '; }
-    addr += v.city.name + ' ' + v.state.name + '  ' + v.postalCode;
+    addr += v.city.name + ' ';
+    if (v.state && v.state.name) { addr += v.state.name + '  ';}
+    if (v.postalCode) { addr += v.postalCode;}
     return addr;
   }
 
