@@ -1,0 +1,110 @@
+<div>
+
+  <div class='h-collapsible' ng-controller="CollapseDemoController">
+    <button class="btn-sm" ng-click="isCollapsed = !isCollapsed">{{getButtonSymbol()}}</button>
+    <div collapse-width="isCollapsed" ><!-- collapse-type="width" expanded-size='340px' -->
+      <div class="well well-lg" id='logging'></div>
+    </div>
+  </div>
+
+  <div class="hero-unit" style='padding:22px 32px 32px 32px;'>
+    <h2 style='margin-top:-2px;'>Ticketmaster Event Search</h2>
+
+    <div class='hint' ng-show="securityContext.checked && !securityContext.apikey">
+      <p>You need to specify an API key </p>
+    </div>
+    
+    <div class="btn-group" ng-show="securityContext.checked && !securityContext.apikey">
+      <input type='text' ng-model='securityContext.pendingApikey' />
+      <button class="btn btn-info" ng-click="storeApiKey()">Save</button>
+    </div>
+
+    <div ng-show="securityContext && securityContext.apikey && securityContext.checked">
+      <p>You have stored a valid key.&nbsp;
+        <button class="btn btn-warning" ng-click="forgetKey()">Forget it</button>
+      </p>
+    </div>
+  </div>
+
+  <form class='form-horizontal search-form'>
+    <div class="form-group">
+      <label for="keyword">keyword</label>
+      <input type="text" ng-model='keyword' style='width:380px;' ng-model-instant
+             class="form-control" id="keyword" placeholder="keyword"/>
+    </div>    
+    <div class="form-group">
+      <label for="keyword">city, state</label>
+      <input type="text" ng-model='citystate' style='width:380px;' ng-model-instant
+             class="form-control" id="city" placeholder="eg, Seattle, WA"/>
+    </div>
+
+    <div class="form-group">
+      <label for="eventtype">event type</label>
+      <select style='width:auto;'
+              id='eventtype'
+              ng-model="c12n"
+              ng-options="c.id as c.name for c in classifications"></select>
+    </div>    
+    
+    <button ng-hide='retrieverPromise' class='btn' ng-click='search()'>
+      <span class='glyphicon glyphicon-plus'></span>&nbsp;Search</button>
+    <span ng-show='retrieverPromise' >Searching....</span>
+    <button ng-show='retrieverPromise' class='btn' ng-click='stopSearch()'>
+      <span class='glyphicon glyphicon-remove'></span>&nbsp;Stop</button>
+  </form>
+
+  <div ng-show="securityContext && securityContext.apikey" style='margin-left:10px;'>
+    <h3>Found: {{totalAvailable}} Retrieved: {{eventCollection.length}}</h3>
+
+    <div ng-show='false' class='filters'>
+      <em>Filter:</em>
+      <span> name: <input type='text' ng-model='filter.nameText' ng-model-options="{debounce: 1100}"/></span>
+      <span> city: <input type='text' ng-model='filter.cityText' ng-model-options="{debounce: 1100}"/></span>
+      <span> venue: <input type='text' ng-model='filter.venueText' ng-model-options="{debounce: 1100}"/></span>
+    </div>
+
+
+    <table st-safe-src='eventCollection' st-table="stShadowCollection" class="table table-striped smart-table">
+      <thead>
+        <tr>
+        <th st-sort="name" class='event-name' ng-click='setSort($event)'>name</th>
+        <th st-sort="venueName" class='event-venue' ng-click='setSort($event)'>venue</th>
+        <th st-sort="date" class='date-sm' ng-click='setSort($event)'>date</th>
+        <th>&nbsp;</th>
+        </tr>
+        <tr>
+          <th>
+            <input st-search="'name'" placeholder="search for event" class="input-sm form-control" type="search"/>
+          </th>
+          <th colspan="4">
+            <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="event in stShadowCollection">
+          <td><span ng-bind-html='event | eventHyperlinked'></span></td>
+          <td>
+            <div ng-repeat='venue in event._embedded.venues'>
+              <div ng-bind-html='venue | venueHyperlinked'></div>
+            </div>
+          </td>
+          <td class='item-date-sm'><span class='item-date'>{{event.dates.start.dateTime | dateFormatter}}</span></td>
+          
+          <td></td>
+          
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" class="text-center">
+            <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="4"
+                 st-template='templates/my-pagination.html'></div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+
+</div>
