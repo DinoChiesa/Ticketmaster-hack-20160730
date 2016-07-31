@@ -29,20 +29,20 @@
   <form class='form-horizontal search-form'>
     <div class="form-group">
       <label for="keyword">keyword</label>
-      <input type="text" ng-model='keyword' style='width:380px;' ng-model-instant
+      <input type="text" ng-model='keyword' ng-model-instant
              class="form-control" id="keyword" placeholder="keyword"/>
     </div>    
     <div class="form-group">
       <label for="keyword">city, state</label>
-      <input type="text" ng-model='citystate' style='width:380px;' ng-model-instant
+      <input type="text" ng-model='citystate' ng-model-instant
              class="form-control" id="city" placeholder="eg, Seattle, WA"/>
     </div>
 
     <div class="form-group">
       <label for="eventtype">event type</label>
-      <select style='width:auto;'
+      <select class='form-control'
               id='eventtype'
-              ng-model="c12n"
+              ng-model="eventtype"
               ng-options="c.id as c.name for c in classifications"></select>
     </div>    
     

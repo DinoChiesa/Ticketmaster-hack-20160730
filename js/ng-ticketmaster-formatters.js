@@ -3,8 +3,8 @@
 //
 // format filters for ticketmaster entities.
 //
-// last saved: <2016-July-31 07:17:41>
-
+// last saved: <2016-July-31 14:11:18>
+//
 
 ;(function (){
   'use strict';
@@ -30,17 +30,32 @@
   angular
     .module('tmApp1')
     .filter('eventHyperlinked', ['$sce', function($sce) {
+      // use this filter with ng-bind-html
       return function(event) {
         // event.id = tm event id
         // event.url = external link
         return $sce.trustAsHtml('<a href="' + event.url + '">' + event.name + '</a>');
       };
     }])
+
     .filter('venueHyperlinked', ['$sce', function($sce) {
+      // this filter returns html.  Use it with ng-bind-html.
       return function(venue) {
-        var address = getAddressForVenue(venue);
-        return $sce.trustAsHtml('<div class="venue-name">' + venue.name + '</div>' +
-                                '<div class="venue-address"><a href="http://maps.google.com/?q=' + address + '">' + address + '</a></div>');
+        var result;
+        if (venue) {
+          var address = getAddressForVenue(venue);
+          var venueName = (venue.name) ?
+            '<div class="venue-name">' + venue.name + '</div>' :
+            '<div class="venue-name venue-unknown">-venue name not available-</div>';
+          result = venueName +
+            '<div class="venue-address"><a href="http://maps.google.com/?q=' +
+            address + '">' + address + '</a></div>';
+        }
+        else {
+          result = '<div class="venue-name venue-unknown">-venue name not available-</div>';
+        }
+
+      return $sce.trustAsHtml(result);
       };
     }])
   ;

@@ -55,6 +55,7 @@ function MainController ($scope, $http, $q  /*, $modal , $httpProvider , $compil
     var searchContext = { };
     if ($scope.keyword){
       searchContext.keyword = $scope.keyword;
+      window.localStorage.setItem(html5AppId + '.last-keyword', $scope.keyword);
     }
 
     if ($scope.citystate) {
@@ -62,11 +63,13 @@ function MainController ($scope, $http, $q  /*, $modal , $httpProvider , $compil
       if (pair && pair.length === 2) {
         searchContext.city = pair[0];
         searchContext.stateCode = pair[1];
+        window.localStorage.setItem(html5AppId + '.last-citystate', $scope.citystate);
       }
     }
 
-    if ($scope.c12n) {
-      searchContext.classificationId = $scope.c12n;
+    if ($scope.eventtype) {
+      searchContext.classificationId = $scope.eventtype;
+      window.localStorage.setItem(html5AppId + '.last-eventtype', $scope.eventtype);
     }
 
     // do we have something to search on?
@@ -147,6 +150,15 @@ function MainController ($scope, $http, $q  /*, $modal , $httpProvider , $compil
 
   function init() {
     log.write('MainController');
+    var possiblyStoredProperties = [ 'eventtype', 'keyword', 'citystate'];
+    possiblyStoredProperties.forEach(function(p){
+      var value = window.localStorage.getItem(html5AppId + '.last-' + p);
+      if (value) {
+        // insert it into the model
+        $scope[p] = value;
+      }
+    });
+
     // check for existing, working apikey
     var apikey = window.localStorage.getItem(html5AppId + '.tm-apikey');
     if (apikey && apikey !== "null") {

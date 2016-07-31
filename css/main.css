@@ -59,8 +59,6 @@ tr > td.event-name > span {
   font-size:20px;
 }
 
-
-
 .search-form { }
 
 div .form-horizontal.search-form  .form-group {
@@ -69,15 +67,26 @@ div .form-horizontal.search-form  .form-group {
 }
 
 .form-group > input,
+.form-group > select,
 .form-group > label {
   display: inline-block;
   min-width: 100px;
+}
+
+.form-group > input { width: 380px; }
+
+.form-group > select.form-control {
+  width:auto;
 }
 
 .venue-address {
   font-weight: 300;
   color: #666;
   font-size: 11px;
+}
+
+.venue-unknown {
+  font-style: italic;
 }
 
 
