@@ -4,7 +4,11 @@
 
 Seattle, WA
 
-Uses ticketmaster APIs
+This is an angular single-page webapp.
 
-See [developer.ticketmaster.com](http://developer.ticketmaster.com)
+It uses ticketmaster APIs.  To run this app, you need an API key. 
+
+To get one, 
+see [developer.ticketmaster.com](http://developer.ticketmaster.com)
+
 
